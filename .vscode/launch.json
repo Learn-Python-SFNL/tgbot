@@ -1,12 +1,11 @@
 {
-
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: модуль",
+            "name": "tgbot",
             "type": "python",
             "request": "launch",
-            "module": "bot",
+            "module": "tgbot",
             "justMyCode": true,
             "console": "internalConsole"
         }
