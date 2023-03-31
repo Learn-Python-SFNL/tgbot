@@ -1,31 +1,43 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import settings
 import logging
+
+from telegram.ext import CommandHandler, Updater  # MessageHandler, Filters
+
+import settings
+from tgbot.api import api
 
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
-def greet_user(update, context):
-    logger.info('Вызван /start')
-    update.message.reply_text('Hello World')
 
-def talk_to_me(update, context):
-    text=update.message.text
-    logger.info(text)
-    update.message.reply_text(text)
+def user_registration(update, context):
+    logger.info('Вызван /start')
+
+    user = update.effective_user
+    username = user.username
+    tgid = user.id
+    first_name = user.first_name
+    last_name = user.last_name
+    chat_id = update.message.chat_id
+    context.bot.send_message(
+                    chat_id=update.message.chat_id,
+                    text=f'Привет {username}!\n'
+                    f'Имя: {first_name} {last_name}\n'
+                    f'Твой id: {tgid}\n'
+                    f'id чата: {chat_id}'
+                )
+    api.users.registrate(username=username, tgid=tgid)
+
 
 def main():
 
     mybot = Updater(settings.API_KEY, use_context=True)
-
-    dp=mybot.dispatcher
-    dp.add_handler(CommandHandler('start', greet_user))
-    dp.add_handler(MessageHandler(Filters.text, talk_to_me))
-
+    dp = mybot.dispatcher
+    dp.add_handler(CommandHandler('start', user_registration))
     logging.info('Бот Стартовал')
     mybot.start_polling()
     mybot.idle()
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     main()
