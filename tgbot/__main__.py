@@ -1,8 +1,8 @@
 import logging
 
-from telegram.ext import CommandHandler, Updater  # MessageHandler, Filters
+from telegram.ext import CommandHandler, Updater
 
-import settings
+from config import config
 from tgbot.api import api
 
 logger = logging.getLogger(__name__)
@@ -31,7 +31,7 @@ def user_registration(update, context):
 
 def main():
 
-    mybot = Updater(settings.API_KEY, use_context=True)
+    mybot = Updater(config.api_key, use_context=True)
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler('start', user_registration))
     logging.info('Бот Стартовал')

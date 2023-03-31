@@ -1,10 +1,5 @@
-import logging
-
 import httpx
-
-logger = logging.getLogger(__name__)
-
-logging.basicConfig(level=logging.INFO)
+from config import config_api
 
 
 class UserClient:
@@ -16,7 +11,6 @@ class UserClient:
         users = {'username': username, 'tgid': tgid}
         response = httpx.post(self.url, json=users)
         response.raise_for_status()
-        logger.info(response.json())
 
 
 class ApiClient:
@@ -25,4 +19,4 @@ class ApiClient:
         self.users = UserClient(url=url)
 
 
-api = ApiClient(url='http://127.0.0.1:8000')
+api = ApiClient(url=config_api.http_key)
