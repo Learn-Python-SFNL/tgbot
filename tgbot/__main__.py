@@ -17,15 +17,18 @@ def user_registration(update, context):
     username = user.username
     tgid = user.id
     first_name = user.first_name
-    last_name = user.last_name
-    chat_id = update.message.chat_id
+    # last_name = user.last_name
+    # chat_id = update.message.chat_id
     context.bot.send_message(
-                    chat_id=update.message.chat_id,
-                    text=f'Привет {username}!\n'
-                    f'Имя: {first_name} {last_name}\n'
-                    f'Твой id: {tgid}\n'
-                    f'id чата: {chat_id}'
-                )
+                chat_id=update.message.chat_id,
+                text=f'Привет {first_name}! Это проект Swap4newlife.\n'
+                f'Я создан для того, чтобы подарить вещам вторую жизнь.\n'
+                f'Если у тебя накопилось много ненужных вещей, '
+                f'я помогу тебе обменять их на нужные!'
+                # f'Имя: {first_name} {last_name}\n'
+                # f'Твой id: {tgid}\n'
+                # f'id чата: {chat_id}'
+            )
     api.users.registrate(username=username, tgid=tgid)
 
 
