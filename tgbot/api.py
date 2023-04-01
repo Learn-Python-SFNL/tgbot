@@ -2,7 +2,7 @@ import httpx
 
 from config import config_api
 
-
+# TODO: класс categories.client класс products.client
 class UserClient:
     def __init__(self, url: str):
         self.url = f'{url}/api/v1/users/'
@@ -16,7 +16,8 @@ class UserClient:
 
 class ApiClient:
     def __init__(self, url: str):
-
+        # self.products =
+        # self.categories =
         self.users = UserClient(url=url)
 
 
