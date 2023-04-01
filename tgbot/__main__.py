@@ -1,31 +1,41 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import settings
 import logging
+
+from telegram.ext import CommandHandler, Updater
+
+from config import config
+from tgbot.api import api
 
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
-def greet_user(update, context):
-    logger.info('Вызван /start')
-    update.message.reply_text('Hello World')
 
-def talk_to_me(update, context):
-    text=update.message.text
-    logger.info(text)
-    update.message.reply_text(text)
+def user_registration(update, context):
+    logger.info('Вызван /start')
+
+    user = update.effective_user
+    username = user.username
+    tgid = user.id
+    first_name = user.first_name
+    context.bot.send_message(
+                chat_id=update.message.chat_id,
+                text=f'Привет {first_name}! Это проект Swap4newlife.\n'
+                f'Я создан для того, чтобы подарить вещам вторую жизнь.\n'
+                f'Если у тебя накопилось много ненужных вещей, '
+                f'я помогу тебе обменять их на нужные!'
+            )
+    api.users.registrate(username=username, tgid=tgid)
+
 
 def main():
 
-    mybot = Updater(settings.API_KEY, use_context=True)
-
-    dp=mybot.dispatcher
-    dp.add_handler(CommandHandler('start', greet_user))
-    dp.add_handler(MessageHandler(Filters.text, talk_to_me))
-
+    mybot = Updater(config.api_key, use_context=True)
+    dp = mybot.dispatcher
+    dp.add_handler(CommandHandler('start', user_registration))
     logging.info('Бот Стартовал')
     mybot.start_polling()
     mybot.idle()
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     main()
