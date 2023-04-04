@@ -5,7 +5,6 @@ import httpx
 from config import config
 
 
-# TODO: класс categories.client класс products.client
 class UserClient:
     def __init__(self, url: str):
         self.url = f'{url}/api/v1/users/'
@@ -30,9 +29,19 @@ class CategoriesClient:
 
 class ApiClient:
     def __init__(self, url: str):
-        # self.products =
+        self.products = ProductsClient(url=url)
         self.categories = CategoriesClient(url=url)
         self.users = UserClient(url=url)
 
 
 api = ApiClient(url=config.http_key)
+
+
+class ProductsClient:
+    def __init__(self, url: str):
+        self.url = f'{url}/api/v1/products/'
+
+    def post_product(self):
+        response = httpx.post(self.url)
+        response.raise_for_status()
+        return response.json()
