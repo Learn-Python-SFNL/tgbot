@@ -4,22 +4,13 @@ import httpx
 from telegram.ext import CommandHandler, Updater
 
 from config import config
-from tgbot.api import api
 from tgbot.errors import IncorrectAddCmdError
+from tgbot.handlers import user_registration
 from tgbot.products import parse_add_product_cmd
 
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
-
-
-def user_registration(update, context):
-    logger.info('Вызван /start')
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=api.users.greet_user(update),
-    )
-    update.message.reply_text(api.categories.all_categories())
 
 
 # TODO: переместить в api.py в продуктс клиента
