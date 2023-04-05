@@ -7,13 +7,11 @@ from config import config
 from tgbot.errors import IncorrectAddCmdError
 from tgbot.handlers import user_registration
 from tgbot.products import parse_add_product_cmd
+from tgbot.api import ProductsClient
 
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
-
-
-# TODO: переместить в api.py в категориес клиента
 
 
 def get_categories():
@@ -22,7 +20,6 @@ def get_categories():
     return response.json()
 
 
-# TODO: переместить в api.py в продуктс клиента
 def post_product(uid, product):
     products = {
         'category_id': uid,
@@ -72,7 +69,7 @@ def add_product(update, context):
 
     if not categories:
         update.message.reply_text(f'Категории "{category_name}" нет')
-        update.message.reply_text(f'Вот список категорий: {names} выберите нужную')
+        update.message.reply_text(f'Список категорий: {categories} выберите нужную')
     else:
         post = api.products.add(categories[0]['id'], product_title)
         update.message.reply_text(f'Вы успешно добавили продукт {product_name} в категории {category_name}')
