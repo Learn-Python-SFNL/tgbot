@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 import httpx
-
+from typing import Any
 from config import config
 
 
@@ -26,6 +26,23 @@ class CategoriesClient:
         response = httpx.get(self.url)
         return response.json()
 
+    def get_categories_by_name(self, name: str):
+        response = httpx.get(self.url, params={'title': name})
+        return response.json()
+
+
+class ProductsClient:
+    def __init__(self, url: str):
+        self.url = f'{url}/api/v1/products/'
+
+    def add(self, category_id: int, title: str) -> dict[str, Any]:
+        payload = {
+            'category_id': category_id,
+            'title': title,
+        }
+        response = httpx.post(self.url, json=payload)
+        return response.json()
+
 
 class ApiClient:
     def __init__(self, url: str):
@@ -35,12 +52,3 @@ class ApiClient:
 
 
 api = ApiClient(url=config.http_key)
-
-
-class ProductsClient:
-    def __init__(self, url: str):
-        self.url = f'{url}/api/v1/products/'
-
-    def post_product(self):
-        response = httpx.post(self.url)
-        return response.json()
