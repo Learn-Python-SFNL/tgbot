@@ -41,6 +41,7 @@ class ProductsClient:
             'title': title,
         }
         response = httpx.post(self.url, json=payload)
+        response.raise_for_status()
         return response.json()
 
 
