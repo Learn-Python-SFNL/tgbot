@@ -1,11 +1,10 @@
 from http import HTTPStatus
 
 import httpx
-
+from typing import Any
 from config import config
 
 
-# TODO: класс categories.client класс products.client
 class UserClient:
     def __init__(self, url: str):
         self.url = f'{url}/api/v1/users/'
@@ -27,10 +26,28 @@ class CategoriesClient:
         response = httpx.get(self.url)
         return response.json()
 
+    def get_categories_by_name(self, name: str):
+        response = httpx.get(self.url, params={'title': name})
+        return response.json()
+
+
+class ProductsClient:
+    def __init__(self, url: str):
+        self.url = f'{url}/api/v1/products/'
+
+    def add(self, category_id: int, title: str) -> dict[str, Any]:
+        payload = {
+            'category_id': category_id,
+            'title': title,
+        }
+        response = httpx.post(self.url, json=payload)
+        response.raise_for_status()
+        return response.json()
+
 
 class ApiClient:
     def __init__(self, url: str):
-        # self.products =
+        self.products = ProductsClient(url=url)
         self.categories = CategoriesClient(url=url)
         self.users = UserClient(url=url)
 

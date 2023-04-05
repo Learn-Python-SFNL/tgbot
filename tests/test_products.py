@@ -1,7 +1,7 @@
 import pytest
 
-from tgbot.products import parse_add_product_cmd
 from tgbot.errors import IncorrectAddCmdError
+from tgbot.products import parse_add_product_cmd
 
 
 @pytest.mark.parametrize('cmd, exp_category, exp_product', [
