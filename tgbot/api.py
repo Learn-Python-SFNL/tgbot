@@ -1,7 +1,8 @@
 from http import HTTPStatus
+from typing import Any
 
 import httpx
-from typing import Any
+
 from config import config
 
 
@@ -22,11 +23,11 @@ class CategoriesClient:
     def __init__(self, url: str):
         self.url = f'{url}/api/v1/categories/'
 
-    def get_categories(self):
+    def get_categories(self) -> list[dict[str, Any]]:
         response = httpx.get(self.url)
         return response.json()
 
-    def get_categories_by_name(self, name: str):
+    def get_categories_by_name(self, name: str) -> list[dict[str, Any]]:
         response = httpx.get(self.url, params={'title': name})
         return response.json()
 
