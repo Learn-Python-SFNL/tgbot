@@ -3,7 +3,7 @@ import logging
 from tgbot.api import api
 from tgbot.errors import IncorrectAddCmdError
 from tgbot.products import parse_add_product_cmd
-from tgbot.render import great_user, show_categories
+from tgbot.render import great_user, noname_category, show_add_product, show_categories
 
 logger = logging.getLogger(__name__)
 
@@ -34,9 +34,12 @@ def add_product(update, context):
     categories = api.categories.get_categories_by_name(category_name)
 
     if not categories:
-        all_categories = api.categories.get_categories()
-        update.message.reply_text(f'Категории "{category_name}" нет')
-        update.message.reply_text(f'Список категорий: {all_categories} выберите нужную')
-    else:
-        product = api.products.add(categories[0]['id'], product_name)
-        update.message.reply_text(f'Вы успешно добавили продукт {product["title"]} в категории {categories[0]["title"]}')
+        categories = api.categories.get_categories()
+        update.message.reply_text(noname_category(category_name))
+        categories_msg = show_categories(categories)
+        update.message.reply_text(categories_msg)
+        return
+
+    product = api.products.add(categories[0]['id'], product_name)
+    product_add = show_add_product(product, categories[0])
+    update.message.reply_text(product_add)
