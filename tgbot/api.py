@@ -18,6 +18,11 @@ class UserClient:
         response.raise_for_status()
         return True
 
+    def get_by_tgid(self, tgid: int):
+        response = httpx.get(f'{self.url}telegram/{tgid}')
+        response.raise_for_status()
+        return response.json()
+
 
 class CategoriesClient:
     def __init__(self, url: str):
@@ -36,10 +41,11 @@ class ProductsClient:
     def __init__(self, url: str):
         self.url = f'{url}/api/v1/products/'
 
-    def add(self, category_id: int, title: str) -> dict[str, Any]:
+    def add(self, category_id: int, title: str, user_id: int) -> dict[str, Any]:
         payload = {
             'category_id': category_id,
             'title': title,
+            'user_id': user_id,
         }
         response = httpx.post(self.url, json=payload)
         response.raise_for_status()

@@ -40,6 +40,11 @@ def add_product(update, context):
         update.message.reply_text(categories_msg)
         return
 
-    product = api.products.add(categories[0]['id'], product_name)
+    user = api.users.get_by_tgid(tgid=update.effective_user.id)
+    product = api.products.add(
+        category_id=categories[0]['id'],
+        title=product_name,
+        user_id=user['id'],
+    )
     product_add = show_add_product(product, categories[0])
     update.message.reply_text(product_add)
