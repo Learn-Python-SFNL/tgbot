@@ -25,10 +25,17 @@ class CategoriesClient:
 
     def get_categories(self) -> list[dict[str, Any]]:
         response = httpx.get(self.url)
+        response.raise_for_status()
         return response.json()
 
     def get_categories_by_name(self, name: str) -> list[dict[str, Any]]:
         response = httpx.get(self.url, params={'title': name})
+        response.raise_for_status()
+        return response.json()
+
+    def get_products(self, category_id: int) -> list[dict[str, Any]]:
+        response = httpx.get(f'{self.url}{category_id}/products/')
+        response.raise_for_status()
         return response.json()
 
 
