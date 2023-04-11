@@ -1,5 +1,5 @@
 Вот список доступных товаров для обмена по категории
 {{ category.title }}:
 {% for product in products %}
-    {{ product.title -}}
+{{loop.index}} {{ product.title -}}
 {% endfor %}
