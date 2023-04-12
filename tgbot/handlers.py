@@ -9,6 +9,7 @@ from tgbot.render import (
     show_add_product,
     show_categories,
     show_want_handler_reply,
+    show_choose_product,
 )
 
 logger = logging.getLogger(__name__)
@@ -77,3 +78,27 @@ def want_products_reply(update, context):
 
     message = show_want_handler_reply(categories[0], products)
     update.message.reply_text(message)
+
+
+def choose_product(update, context):
+    choose_list = {
+        1: {'id': 1, 'title': 'лучшая книга по пайтону'},
+        2: {'id': 2, 'title': 'книга физика 11 класс'},
+    }
+
+    source_product_id = 1
+    source_product = choose_list.get(source_product_id)
+    if not source_product:
+        update.message.reply_text('Продукт не найден')
+        return
+
+    target_product_id = 2
+    target_product = choose_list.get(target_product_id)
+    if not target_product:
+        update.message.reply_text('Продукт не найден')
+        return
+
+    target_product_name = target_product.get('title')
+    source_product_name = source_product.get('title')
+    msg = show_choose_product(target_product_name, source_product_name)
+    update.message.reply_text(msg)

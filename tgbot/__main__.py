@@ -3,7 +3,7 @@ import logging
 from telegram.ext import CommandHandler, Updater
 
 from config import config
-from tgbot.handlers import add_product, user_registration, want_products_reply
+from tgbot.handlers import add_product, choose_product, user_registration, want_products_reply
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +16,7 @@ def main():
     dp.add_handler(CommandHandler('start', user_registration))
     dp.add_handler(CommandHandler('add', add_product))
     dp.add_handler(CommandHandler('want', want_products_reply))
+    dp.add_handler(CommandHandler('choose', choose_product))
     logging.info('Бот Стартовал')
     mybot.start_polling()
     mybot.idle()
