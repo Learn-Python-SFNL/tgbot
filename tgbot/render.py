@@ -32,3 +32,11 @@ def noname_category(category_name):
 def show_want_handler_reply(category: dict[str, Any], products: list[dict[str, Any]]):
     template = jenv.get_template('want_handler_reply.j2')
     return template.render(category=category, products=products)
+
+
+def show_choose_product(target_product_name, source_product_name):
+    template = jenv.get_template('choose_product.j2')
+    return template.render(
+        target_product_name=target_product_name,
+        source_product_name=source_product_name,
+    )
