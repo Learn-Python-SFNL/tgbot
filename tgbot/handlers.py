@@ -30,7 +30,6 @@ def user_registration(update, context):
 
 
 def add_product(update, context):
-    """/add Учебник - Книга по Python."""
     try:
         category_name, product_name = parse_add_product_cmd(update.message.text)
     except IncorrectAddCmdError as err:
@@ -56,14 +55,6 @@ def add_product(update, context):
 
 
 def want_products_reply(update, context):
-    """Вернуть список продуктов по категории Учебник.
-
-    /want Учебник
-
-    Книга по Python
-    Книга по цветочкам
-    Зельеваренье
-    """
     cmd: str = update.message.text
     logger.info('Вызванна команда %s', cmd)
     category_name = ' '.join(cmd.split(' ')[1:])
@@ -75,6 +66,9 @@ def want_products_reply(update, context):
     # TODO: обработать случай с несколькими категориями
     category = categories[0]
     products = api.categories.get_products(category['id'])
+
+    chooses = dict(enumerate(products, start=1))
+    context.user_data['choose_list'] = chooses
 
     message = show_want_handler_reply(categories[0], products)
     update.message.reply_text(message)
