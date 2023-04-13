@@ -29,6 +29,9 @@ def noname_category(category_name):
     return template.render(category_name=category_name)
 
 
-def show_want_handler_reply(category: dict[str, Any], products: list[dict[str, Any]]):
+Json = dict[str, Any]
+
+
+def show_want_handler_reply(category: Json, products: list[Json]):
     template = jenv.get_template('want_handler_reply.j2')
     return template.render(category=category, products=products)
