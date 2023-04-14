@@ -10,6 +10,7 @@ from tgbot.render import (
     show_add_product,
     show_categories,
     show_choose_product,
+    show_handlers,
     show_want_handler_reply,
 )
 
@@ -30,6 +31,9 @@ def user_registration(update, context):
     categories = api.categories.get_categories()
     categories_msg = show_categories(categories)
     update.message.reply_text(categories_msg)
+
+    handler_msg = show_handlers()
+    update.message.reply_text(handler_msg)
 
 
 def add_product(update, context):
