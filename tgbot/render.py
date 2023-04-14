@@ -43,3 +43,8 @@ def show_choose_product(target_product_name, source_product_name):
         target_product_name=target_product_name,
         source_product_name=source_product_name,
     )
+
+
+def show_handlers():
+    template = jenv.get_template('show_handlers.j2')
+    return template.render()
