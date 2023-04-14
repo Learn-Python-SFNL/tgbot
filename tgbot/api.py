@@ -23,6 +23,11 @@ class UserClient:
         response.raise_for_status()
         return response.json()
 
+    def get_products_by_user(self, user_id: int):
+        response = httpx.get(f'{self.url}{user_id}/products/')
+        response.raise_for_status()
+        return response.json()
+
 
 class CategoriesClient:
     def __init__(self, url: str):
@@ -59,11 +64,26 @@ class ProductsClient:
         return response.json()
 
 
+class ChoosesClient:
+    def __init__(self, url: str):
+        self.url = f'{url}/api/v1/chooses/'
+
+    def choose_products(self, source_product_id: int, target_product_id: int) -> dict[str, Any]:
+        payload = {
+            'source_product_id': source_product_id,
+            'target_product_id': target_product_id,
+        }
+        response = httpx.post(self.url, json=payload)
+        response.raise_for_status()
+        return response.json()
+
+
 class ApiClient:
     def __init__(self, url: str):
         self.products = ProductsClient(url=url)
         self.categories = CategoriesClient(url=url)
         self.users = UserClient(url=url)
+        self.chooses = ChoosesClient(url=url)
 
 
 api = ApiClient(url=config.http_key)
